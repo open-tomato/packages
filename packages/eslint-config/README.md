@@ -53,7 +53,7 @@ layout sets its own list in a block after the base:
 
 | Entry | What it adds | Lay it over |
 | --- | --- | --- |
-| `/react` | `eslint-plugin-react`, the hooks rules and jsx-a11y, on `.tsx` and `.jsx` | base |
+| `/react` | `eslint-plugin-react` and jsx-a11y on `.tsx` and `.jsx`; the hooks rules on every code file, since custom hooks live in `.ts` files | base |
 | `/vite` | `react-refresh/only-export-components` with the Vite preset | base, react |
 | `/cva` | `@open-tomato/cva-only-classname`, outside templates, pages, stories and tests | base, react |
 | `/type-aware` | promise and exhaustiveness rules through the project service | base |

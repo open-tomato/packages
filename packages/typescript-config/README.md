@@ -49,6 +49,11 @@ Pick one, and extend it:
 The `bun` flavor needs `@types/bun` installed, and the `node` flavor needs
 `@types/node`.
 
+Each file is exported with and without its `.json` suffix, so
+`@open-tomato/typescript-config/bun` and
+`@open-tomato/typescript-config/bun.json` name the same file. Editors that
+resolve `extends` themselves sometimes need the suffix.
+
 ## Mixins
 
 A mixin changes how a project emits, and goes after a flavor in an

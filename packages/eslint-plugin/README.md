@@ -63,10 +63,26 @@ A string, a template literal or any other expression is refused. The `cva`
 flavor of the config turns it on outside templates, pages, stories and
 tests.
 
+## Turning a rule off for one line
+
+A disable comment names the rule with its prefix, and says why after
+`--`:
+
+```tsx
+export function LegacyGrid() {
+  // eslint-disable-next-line @open-tomato/cva-only-classname -- markup kept from the old site
+  return <div className="legacy-grid" />;
+}
+```
+
+The rules used to live under the prefixes `ar/`, `house/`, `ot/` and
+`d2c/`. A comment that still names one refers to a rule that no longer
+exists, and ESLint reports it, so rename each to `@open-tomato/`.
+
 ## Exports
 
 | Path | What it holds |
 | --- | --- |
 | `.` | the plugin, and `PLUGIN_KEY` |
-| `./rules/no-unsafe-unicode` | the rule, and `findUnsafeUnicode(text)` |
+| `./rules/no-unsafe-unicode` | the rule, and `findUnsafeUnicode(text)`, which answers `{ index, code, kind }` for each character |
 | `./rules/cva-only-classname` | the rule |

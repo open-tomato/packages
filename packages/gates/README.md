@@ -50,7 +50,17 @@ Refuses personal and private data in what a public repository tracks:
 bunx ot-privacy-gate              # tracked files and untracked ones git would track
 bunx ot-privacy-gate --staged     # the index, for a pre-commit hook
 bunx ot-privacy-gate --history    # every blob and commit identity, before a first push
+bunx ot-privacy-gate --root ../other-repo  # a repository other than the current one
 ```
+
+Each mode reads what it judges from where a reviewer would see it:
+
+- `--staged` reads the files and `.privacy-gate.json` from the index, so
+  an allowance edited locally but never staged cannot pass a commit.
+- `--history` judges a blob under every path it was committed at,
+  because the sample rules and the allow list both depend on the path.
+- An unknown flag, `--root` with no folder, or two modes at once stop the
+  gate with exit 2, so a typo never runs a different scan.
 
 ### The project's list
 
@@ -77,7 +87,9 @@ bun -e 'console.log(new Bun.CryptoHasher("sha256").update(process.argv[1].toLowe
 An `allow` entry is a reviewed exception: the path glob, the rule, the
 sha256 of the exact text the gate reported, and why it is meant. Without a
 config file, the gate runs the shape rules alone and says so in its report.
-A malformed config stops the gate with exit 2.
+A malformed config stops the gate with exit 2, and so does a key other than
+`banned`, `allow` and `$comment`, or an `allow` rule the gate does not have:
+a typo there would otherwise empty a list without a word.
 
 ## A pre-commit hook
 
@@ -99,5 +111,5 @@ The gates are importable too, for a project that wraps them:
 | --- | --- |
 | `./control-bytes` | `scanText`, `scanBuffer`, `scanFiles`, `listFiles` |
 | `./privacy` | `judge`, `readSources`, `readConfig`, `parseArgs`, `run` |
-| `./privacy/rules` | `scan`, `bannedIn`, `isSamplePath`, `sha256` |
-| `./privacy/config` | `readPrivacyConfig`, `parsePrivacyConfig` |
+| `./privacy/rules` | `scan`, `bannedIn`, `isSamplePath`, `sha256`, `RULE_NAMES` |
+| `./privacy/config` | `readPrivacyConfig`, `parsePrivacyConfig`, `CONFIG_FILE`, `NO_CONFIG` |
