@@ -58,22 +58,85 @@ package: @open-tomato/eslint-config
 The level is `patch`, `minor`, `major` or `none`. A change to two packages
 writes two fragments.
 
-`rafa release settle` folds the waiting fragments into one version per
-package that moved, writes each package's `CHANGELOG.md`, and tags
-`<name>@<version>`. A pushed tag runs
-[the publish workflow](.github/workflows/release-publish.yml), which runs
-every gate and then publishes each tagged package from its folder through
+A release takes four steps, run from an up-to-date `main`:
+
+1. Settle the waiting fragments. `rafa release settle` folds them into one
+   version per package that moved, writes each package's `CHANGELOG.md`,
+   and pushes the release commit to `main` itself, so pull it afterwards:
+
+   ```bash
+   rafa release settle
+   git pull --ff-only
+   ```
+
+2. Tag each package that moved, on the release commit. `rafa release tag`
+   refuses in this repository, because the private root never releases,
+   so the tags are written with git. The loop skips a version whose tag
+   exists already:
+
+   ```bash
+   for dir in packages/*/; do
+     tag="$(bun -e "const m = require('./${dir}package.json'); console.log(m.name + '@' + m.version)")"
+     git rev-parse -q --verify "refs/tags/$tag" > /dev/null || git tag "$tag"
+   done
+   ```
+
+3. Push the tags on the release commit:
+
+   ```bash
+   git push origin $(git tag --points-at HEAD)
+   ```
+
+   GitHub starts no workflow for a push that carries more than three tags.
+   With four or more, start the publish by hand:
+
+   ```bash
+   gh workflow run release-publish.yml -f ref="$(git rev-parse HEAD)"
+   ```
+
+4. Watch the run:
+
+   ```bash
+   gh run watch "$(gh run list --workflow release-publish.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
+   ```
+
+[The publish workflow](.github/workflows/release-publish.yml) runs every
+gate, then publishes every release tag on the commit it checks out, each
+package from its folder through
 [scripts/publish-package.ts](scripts/publish-package.ts). That script packs
 the package with each `workspace:` range filled in from the siblings'
 manifests, refuses a tarball the pack check rejects, and runs `npm publish`
-with npm trusted publishing, so no token is stored anywhere.
+through npm trusted publishing, so no token is stored anywhere. A version
+npm already holds is skipped, so a rerun publishes only what is missing.
+Runs share one concurrency group, so a run started while another is
+publishing waits for it instead of racing it.
 
-Before the first publish:
+npm can take up to about twenty minutes to list a new version. Until then
+`npm view` answers 404, and a second publish of it answers 409 "previously
+staged version", which the script counts as published.
 
-1. Create the repository `open-tomato/packages` on GitHub and push.
-2. On npmjs.com, add a trusted publisher to each of the four packages,
-   naming this repository and `release-publish.yml`.
-3. Turn publishing on: `gh variable set RAFA_RELEASE_PUBLISH --body ci`.
+### Before the first publish
+
+1. Create the repository on GitHub and push.
+2. Publish the first version of each package from a clone, signed in with
+   `npm login`. A trusted publisher lives in a package's settings on
+   npmjs.com, and those exist only once the package does. Check out the
+   release commit, then run `rafa release publish`.
+3. On npmjs.com, add a trusted publisher to each package, for GitHub
+   Actions:
+
+   | Field | Value |
+   | --- | --- |
+   | Organization or user | `open-tomato` |
+   | Repository | `packages` |
+   | Workflow filename | `release-publish.yml` |
+   | Environment | empty |
+   | Permissions | **publish** |
+
+   A publisher saved with stage publish alone makes every run fail with
+   403 "OIDC permission denied for this action". `npx npm@latest trust
+   list <package>` shows what is saved.
+4. Turn publishing on: `gh variable set RAFA_RELEASE_PUBLISH --body ci`.
 
 ## License
 

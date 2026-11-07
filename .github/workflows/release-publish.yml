@@ -1,10 +1,11 @@
 # Publishes the packages whose release tags point at the checked-out
 # commit, each from its own folder, through `rafa release publish`.
 #
-# A release is settled first, locally or in CI, with `rafa release
-# settle`: it folds the change fragments in `.changes/` into one version
-# per package that moved, writes each package's CHANGELOG.md, and tags
-# `<name>@<version>`. Pushing those tags runs this workflow.
+# A release is settled first with `rafa release settle`: it folds the
+# change fragments in `.changes/` into one version per package that moved
+# and writes each package's CHANGELOG.md. Each package that moved is then
+# tagged `<name>@<version>` on that commit, as the README's "Releasing"
+# section shows, and pushing those tags runs this workflow.
 #
 # Each package publishes through `scripts/publish-package.ts`, which
 # packs it with every `workspace:` range filled in from the siblings'
@@ -16,6 +17,13 @@
 # naming this repository and this workflow file. npm attaches provenance
 # on a trusted publish, so no token and no flag are set here.
 #
+# Every run publishes all the release tags on the commit it checks out,
+# skipping a version npm already holds. Runs queue in one concurrency
+# group, so tags pushed one after another never race to publish the same
+# version. GitHub starts no run for a push that carries more than three
+# tags; a release that large starts one run by hand:
+#   gh workflow run release-publish.yml -f ref=<release commit>
+#
 # The job runs only while the repository variable RAFA_RELEASE_PUBLISH
 # reads `ci`: gh variable set RAFA_RELEASE_PUBLISH --body ci
 name: Release publish
@@ -23,12 +31,25 @@ name: Release publish
 on:
   push:
     tags: ['@open-tomato/*@*']
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: The release commit or one of its tags.
+        required: true
+        type: string
   workflow_call:
     inputs:
       ref:
         description: The tag or commit to publish from.
         required: true
         type: string
+
+# One publish at a time. A run waits for the one before it instead of
+# racing it; a waiting run that a newer one replaces loses nothing, because
+# the newer run publishes every tag on its commit too.
+concurrency:
+  group: release-publish
+  cancel-in-progress: false
 
 permissions:
   contents: read
