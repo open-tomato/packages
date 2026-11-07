@@ -1,6 +1,6 @@
 {
   "name": "@open-tomato/eslint-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The custom ESLint rules of the open-tomato projects: no-unsafe-unicode and cva-only-classname.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",

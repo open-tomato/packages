@@ -1,6 +1,6 @@
 {
   "name": "@open-tomato/eslint-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The shared flat ESLint config of the open-tomato projects: a base for JavaScript, TypeScript, Markdown and JSON, plus react, vite, cva, type-aware and markdown-fences flavors.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",
