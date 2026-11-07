@@ -1,6 +1,6 @@
 {
   "name": "@open-tomato/typescript-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The shared tsconfig files of the open-tomato projects: a strict base, bun, node, react and nextjs flavors, and build, declarations, composite and tooling mixins.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",

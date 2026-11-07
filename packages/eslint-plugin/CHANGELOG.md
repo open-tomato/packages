@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-11-07, How to turn a rule off, and the old rule prefixes
+<!-- rafa:fragments readme-pass-eslint-plugin -->
+
+- docs: the README shows a disable comment under the @open-tomato/ prefix, says the old ar/, house/, ot/ and d2c/ names no longer exist, and gives the shape findUnsafeUnicode answers.
+
 ## 0.1.0 — 2026-11-07, First release of the custom ESLint rules
 <!-- rafa:fragments globals-first-release-eslint-plugin -->
 

@@ -1,6 +1,6 @@
 {
   "name": "@open-tomato/gates",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Repository gates of the open-tomato projects: a control-byte gate and a privacy gate, run in CI and as pre-commit hooks.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",
