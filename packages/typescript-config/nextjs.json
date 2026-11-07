@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "open-tomato: Next.js apps",
+  "extends": "./react.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "incremental": true,
+    "declaration": false,
+    "isolatedDeclarations": false,
+    "verbatimModuleSyntax": false,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  }
+}

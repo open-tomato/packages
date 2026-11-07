@@ -1,0 +1,32 @@
+# >>> rafa tracking: rafa rewrites the lines up to the end marker
+.rafa/
+# <<< rafa tracking
+
+# dependencies
+node_modules
+
+# build output, packs and caches
+dist
+*.tgz
+.turbo/
+.tsbuild/
+*.tsbuildinfo
+.eslintcache
+coverage
+
+# test scratch folders
+packages/*/.scratch-*
+
+# environment files
+.env
+.env.*
+!.env.example
+
+# editors and OS
+.idea
+.vscode
+.DS_Store
+
+# agent harness scratch
+.claude/worktrees/
+.tmp/

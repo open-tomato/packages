@@ -1,0 +1,40 @@
+{
+  "name": "@open-tomato/packages",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The workspace that publishes the shared configs, rules and gates of the open-tomato projects. The root never publishes; each package under packages/ does, on its own version.",
+  "license": "Apache-2.0",
+  "author": "Marcos Tomatti",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-tomato/packages.git"
+  },
+  "packageManager": "bun@1.3.14",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "bun": ">=1.3.14"
+  },
+  "scripts": {
+    "lint": "turbo run lint && eslint .",
+    "check-types": "turbo run check-types && tsc --noEmit",
+    "test": "turbo run test && bun test scripts",
+    "pack-check": "bun scripts/pack.ts",
+    "gate:control-bytes": "bun packages/gates/src/control-byte-gate.ts --include-untracked",
+    "gate:privacy": "bun packages/gates/src/privacy-gate.ts",
+    "gate:privacy:history": "bun packages/gates/src/privacy-gate.ts --history",
+    "gates": "bun run lint && bun run check-types && bun run test && bun run pack-check && bun run gate:control-bytes && bun run gate:privacy",
+    "verify:affected": "turbo run lint check-types test --affected",
+    "hooks": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "@open-tomato/eslint-config": "workspace:^",
+    "@open-tomato/typescript-config": "workspace:^",
+    "@types/bun": "^1.3.0",
+    "eslint": "^9.39.5",
+    "turbo": "^2.11.10",
+    "typescript": "^5.9.3"
+  }
+}

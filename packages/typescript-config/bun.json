@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "open-tomato: Bun scripts, CLIs and servers",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "Preserve",
+    "types": ["bun"]
+  }
+}

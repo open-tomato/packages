@@ -1,0 +1,63 @@
+# The gates of every pull request and every push to main: lint, types,
+# tests, the pack check of each public package, and the two repository
+# gates. The privacy gate reads the whole history here, so a value a later
+# commit removed still blocks the merge that would publish it.
+name: verify
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TURBO_TELEMETRY_DISABLED: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        if: ${{ !cancelled() }}
+        run: bun run lint
+
+      - name: Types
+        if: ${{ !cancelled() }}
+        run: bun run check-types
+
+      - name: Test
+        if: ${{ !cancelled() }}
+        run: bun run test
+
+      - name: Pack check
+        if: ${{ !cancelled() }}
+        run: bun run pack-check
+
+      - name: Control bytes
+        if: ${{ !cancelled() }}
+        run: bun run gate:control-bytes
+
+      - name: Privacy (history)
+        if: ${{ !cancelled() }}
+        run: bun run gate:privacy:history

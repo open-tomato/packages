@@ -1,0 +1,70 @@
+{
+  "name": "@open-tomato/eslint-plugin",
+  "version": "0.0.0",
+  "description": "The custom ESLint rules of the open-tomato projects: no-unsafe-unicode and cva-only-classname.",
+  "license": "Apache-2.0",
+  "author": "Marcos Tomatti",
+  "openTomato": {
+    "team": "@open-tomato/maintainers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-tomato/packages.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "homepage": "https://github.com/open-tomato/packages/tree/main/packages/eslint-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/open-tomato/packages/issues"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "unicode",
+    "trojan-source",
+    "cva"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.mts",
+      "default": "./index.mjs"
+    },
+    "./rules/no-unsafe-unicode": {
+      "types": "./rules/no-unsafe-unicode.d.mts",
+      "default": "./rules/no-unsafe-unicode.mjs"
+    },
+    "./rules/cva-only-classname": {
+      "types": "./rules/cva-only-classname.d.mts",
+      "default": "./rules/cva-only-classname.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.mjs",
+    "index.d.mts",
+    "rules"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "peerDependencies": {
+    "eslint": "^9.39.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.0",
+    "@typescript-eslint/parser": "^8.72.0",
+    "eslint": "^9.39.5",
+    "typescript": "^5.9.3"
+  }
+}

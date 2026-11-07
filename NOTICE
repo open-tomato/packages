@@ -1,0 +1,10 @@
+@open-tomato/packages
+Copyright 2026 Marcos Tomatti and the open-tomato contributors
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The configs, rules and gates in this repository began in other
+open-tomato repositories and are developed here since: the ESLint and
+TypeScript configs and the two ESLint rules in rafa, the control-byte
+gate in rafa, the privacy gate in components, and the pack and publish
+scripts in service.

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Root: the release scripts",
+  "extends": "@open-tomato/typescript-config/bun",
+  "include": ["scripts"],
+  "exclude": ["node_modules", "packages"]
+}

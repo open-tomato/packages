@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# The staged-content gates, before a commit is made: raw control bytes and
+# invisible characters, then private data (banned terms, home paths, private
+# addresses, credentials, foreign emails). Both judge the index, so a value
+# staged and then cleaned up in the worktree still blocks.
+# Turn it on once per clone: bun run hooks
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+bun "$root/packages/gates/src/control-byte-gate.ts" --staged
+bun "$root/packages/gates/src/privacy-gate.ts" --staged

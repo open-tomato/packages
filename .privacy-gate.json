@@ -1,0 +1,119 @@
+{
+  "$comment": "The privacy gate's list for this repository: sha256 hashes of lowercase banned terms, and reviewed exceptions by the hash of their evidence. No value is spelled here. Hash a term with: bun -e 'console.log(new Bun.CryptoHasher(\"sha256\").update(process.argv[1].toLowerCase()).digest(\"hex\"))' '<term>'",
+  "banned": [
+    {
+      "sha256": "7d445240c97cb8b39b22030981d77679608f91c7a4000e41a1794cde953a1846",
+      "label": "a private machine name (1)"
+    },
+    {
+      "sha256": "77f1d1c04d32a84a569b4aed05ef453ec4f464fcac98de97bb2f5033df2c4a04",
+      "label": "a private machine name (2)"
+    },
+    {
+      "sha256": "982945308d3682d16636fd628c314e293499e99c00120acd9b693f5ab16e1648",
+      "label": "a private machine name (3)"
+    },
+    {
+      "sha256": "831ce4a48d424b3b8d752655a4451e1669262c24c47cb90ea5ec90d1e7d56312",
+      "label": "a private machine name (4)"
+    },
+    {
+      "sha256": "52f3141f5cb06025c96c6794e35f5611a578919d0deb4d934136acaba06d4b82",
+      "label": "a private machine name (5)"
+    },
+    {
+      "sha256": "4bc7c278e449fa5530bad133774f806ddcfba35b8a43b327e5345822831dfff5",
+      "label": "a private machine name (6)"
+    },
+    {
+      "sha256": "a60755a3b272981e54482bedfa9f443288912829bd65eabf75f899a25dc32bf2",
+      "label": "a private disk name"
+    },
+    {
+      "sha256": "4230793e75a9fa85f545ae072cf77eace73d3c27247dada0a3e418e7dcba10d7",
+      "label": "the private domain word"
+    },
+    {
+      "sha256": "83ad19e0d265a97b2d61e77a68ea8a9168fb6a5fc9301fca4deb447b37c6ee29",
+      "label": "the private domain"
+    },
+    {
+      "sha256": "406369d8caab5757e24e4aa1d0b7e21d2f5de9d5e728764c676b54d1996780a0",
+      "label": "the maintainer's personal mail handle"
+    },
+    {
+      "sha256": "3e55007b27d65a0fbaa4843c40842f60e47aeb882a55c3e076c61e4fd3c4c96a",
+      "label": "the maintainer's home path (macOS)"
+    },
+    {
+      "sha256": "67eed59cf4f9c9c73f23fd8afa6b3abd6984a6f461a567ceff34cca0ea8b8f91",
+      "label": "the maintainer's home path (Linux)"
+    },
+    {
+      "sha256": "174a9fc08b0122f393c8eae63583efc39d646a7575b5126e5cbaf9a789788432",
+      "label": "a private repository (1)"
+    },
+    {
+      "sha256": "8fd92190dd20034fd950b51363a4603a0631cd7f9c0751a62de217b6d2f1dc60",
+      "label": "a private repository (2)"
+    },
+    {
+      "sha256": "7c239ce23c100870ee8a79f1b0f1f61e3f1157b947e7b4f64c2894121d0db3b9",
+      "label": "a private repository (3)"
+    },
+    {
+      "sha256": "e1395868b87dec977d4ff43535a248056f8733b2c43df483a1d698ff32076947",
+      "label": "a private repository (4)"
+    },
+    {
+      "sha256": "9fdd8ade8a4a784b5cc162dcf0ee925a5642e35cb5f9e6271d9b3a991edf6024",
+      "label": "a private repository (5)"
+    },
+    {
+      "sha256": "946246055a5b44b407673c631fcaf4184fef77849c7a6304e14f197c48f727a2",
+      "label": "the private registry host"
+    },
+    {
+      "sha256": "3876d564cefdfad18351c192be9e4e20177a5e164e259b16564f4ff26814e205",
+      "label": "the private registry host without its first label"
+    },
+    {
+      "sha256": "8be0b5445fca6eb16d14c6f4eaff1cf1d1a3362ef660bfb2b66e74bf309b7e61",
+      "label": "the word for a home server rack"
+    },
+    {
+      "sha256": "f247eb765fcd0ad4928cbbf055231fd82e43b42e9efa8c14ea13d6b830975d5c",
+      "label": "the first design workbench repository"
+    },
+    {
+      "sha256": "2a95cb7247bd558821d7bd0468bf0112bcbf8821ee9cc187d642f149b9b581e0",
+      "label": "the second design workbench repository"
+    }
+  ],
+  "allow": [
+    {
+      "path": "scripts/*.test.ts",
+      "rule": "sample-url",
+      "sha256": "036b43b16792c643378e95923ed2f4cc78e800de141b764aeea70d47580396df",
+      "why": "The public npm registry, which the publish script's tests name as the registry a package publishes to."
+    },
+    {
+      "path": ".git/COMMIT",
+      "rule": "email",
+      "sha256": "f8c042c4b4a514761e414b50b205ee32c612d207fda11f43a41866f84212bf23",
+      "why": "The maintainer's commit identity, public on every open-tomato repository."
+    },
+    {
+      "path": ".git/COMMIT",
+      "rule": "email",
+      "sha256": "cd29c5ac348a026a3ec5286890908fffb5bf6ab77f20672171be323a70c95026",
+      "why": "The Co-Authored-By trailer of commits written with Claude Code: a vendor's public no-reply address."
+    },
+    {
+      "path": ".git/COMMIT",
+      "rule": "email",
+      "sha256": "3c205d8fc749f72977b9331e3179773c315bb1f4860c366de2abe9ec9337730b",
+      "why": "The committer of every squash merge made on GitHub: the vendor's public no-reply address."
+    }
+  ]
+}
