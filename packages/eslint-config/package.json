@@ -1,7 +1,7 @@
 {
   "name": "@open-tomato/eslint-config",
   "version": "0.1.1",
-  "description": "The shared flat ESLint config of the open-tomato projects: a base for JavaScript, TypeScript, Markdown and JSON, plus react, vite, cva, type-aware and markdown-fences flavors.",
+  "description": "The shared flat ESLint config of the open-tomato projects: a base for JavaScript, TypeScript, Markdown and JSON, plus react, vite, cva, atomic, type-aware and markdown-fences flavors.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",
   "openTomato": {
@@ -22,7 +22,8 @@
     "eslint-config",
     "flat-config",
     "typescript",
-    "react"
+    "react",
+    "atomic-design"
   ],
   "type": "module",
   "sideEffects": false,
@@ -46,6 +47,10 @@
     "./cva": {
       "types": "./cva.d.mts",
       "default": "./cva.mjs"
+    },
+    "./atomic": {
+      "types": "./atomic.d.mts",
+      "default": "./atomic.mjs"
     },
     "./type-aware": {
       "types": "./type-aware.d.mts",
@@ -74,6 +79,8 @@
     "vite.d.mts",
     "cva.mjs",
     "cva.d.mts",
+    "atomic.mjs",
+    "atomic.d.mts",
     "type-aware.mjs",
     "type-aware.d.mts",
     "markdown-fences.mjs",

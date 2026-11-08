@@ -1,7 +1,7 @@
 {
   "name": "@open-tomato/eslint-plugin",
   "version": "0.1.1",
-  "description": "The custom ESLint rules of the open-tomato projects: no-unsafe-unicode and cva-only-classname.",
+  "description": "The custom ESLint rules of the open-tomato projects: no-unsafe-unicode, cva-only-classname, and the atomic-layer rules layer-imports, no-restyle-from-above and shared-variants.",
   "license": "Apache-2.0",
   "author": "Marcos Tomatti",
   "openTomato": {
@@ -22,7 +22,8 @@
     "eslint-plugin",
     "unicode",
     "trojan-source",
-    "cva"
+    "cva",
+    "atomic-design"
   ],
   "type": "module",
   "sideEffects": false,
@@ -38,6 +39,18 @@
     "./rules/cva-only-classname": {
       "types": "./rules/cva-only-classname.d.mts",
       "default": "./rules/cva-only-classname.mjs"
+    },
+    "./rules/layer-imports": {
+      "types": "./rules/layer-imports.d.mts",
+      "default": "./rules/layer-imports.mjs"
+    },
+    "./rules/no-restyle-from-above": {
+      "types": "./rules/no-restyle-from-above.d.mts",
+      "default": "./rules/no-restyle-from-above.mjs"
+    },
+    "./rules/shared-variants": {
+      "types": "./rules/shared-variants.d.mts",
+      "default": "./rules/shared-variants.mjs"
     },
     "./package.json": "./package.json"
   },

@@ -47,9 +47,15 @@ tester.run('@open-tomato/no-unsafe-unicode', noUnsafeUnicode, {
 });
 
 describe('the plugin entry', () => {
-  it('registers both rules under the @open-tomato key', () => {
+  it('registers every rule under the @open-tomato key', () => {
     expect(PLUGIN_KEY).toBe('@open-tomato');
-    expect(Object.keys(plugin.rules ?? {}).sort()).toEqual(['cva-only-classname', 'no-unsafe-unicode']);
+    expect(Object.keys(plugin.rules ?? {}).sort()).toEqual([
+      'cva-only-classname',
+      'layer-imports',
+      'no-restyle-from-above',
+      'no-unsafe-unicode',
+      'shared-variants',
+    ]);
   });
 });
 
