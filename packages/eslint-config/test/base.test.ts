@@ -31,7 +31,7 @@ import { typeAware } from '../type-aware.mjs';
 const PACKAGE_DIR = join(import.meta.dir, '..');
 
 /** The entry files whose imports the manifest must declare. */
-const ENTRIES = ['base.mjs', 'react.mjs', 'vite.mjs', 'cva.mjs', 'type-aware.mjs', 'markdown-fences.mjs'];
+const ENTRIES = ['base.mjs', 'react.mjs', 'vite.mjs', 'cva.mjs', 'atomic.mjs', 'type-aware.mjs', 'markdown-fences.mjs'];
 
 /** A file every rule of the base passes. */
 const CLEAN = 'export const greeting = \'hello\';\n';

@@ -1,7 +1,7 @@
 # @open-tomato/eslint-config
 
 The shared flat ESLint config of the open-tomato projects. It has one base
-and five flavors, and each flavor is laid over the base in the project's own
+and six flavors, and each flavor is laid over the base in the project's own
 `eslint.config.mjs`.
 
 ```bash
@@ -56,6 +56,7 @@ layout sets its own list in a block after the base:
 | `/react` | `eslint-plugin-react` and jsx-a11y on `.tsx` and `.jsx`; the hooks rules on every code file, since custom hooks live in `.ts` files | base |
 | `/vite` | `react-refresh/only-export-components` with the Vite preset | base, react |
 | `/cva` | `@open-tomato/cva-only-classname`, outside templates, pages, stories and tests | base, react |
+| `/atomic` | the atomic-layer rules at `warn`: `layer-imports`, `no-restyle-from-above`, `shared-variants`, outside stories and tests | base, react |
 | `/type-aware` | promise and exhaustiveness rules through the project service | base |
 | `/markdown-fences` | lints the `js` and `ts` fences of Markdown files | base |
 
@@ -69,6 +70,39 @@ import viteConfig from '@open-tomato/eslint-config/vite';
 
 export default [...baseConfig, ...reactConfig, ...viteConfig, ...cvaConfig];
 ```
+
+The atomic flavor reads a component's level from its path,
+`src/<level>/<Name>/`, and warns where a component imports from its own
+level or a higher one, restyles another component through `className`, or
+borrows another component's `.variants` file. Its default export uses the
+default levels, lowest first: `particles`, `atoms`, `molecules`,
+`organisms`, `templates`, `layouts`, `pages`. That list holds every level
+the open-tomato libraries use, and a level with no folder costs nothing, so
+a library with fewer levels keeps it. A library whose levels differ builds
+the flavor with its own list, which all three rules share:
+
+```js
+import { atomic } from '@open-tomato/eslint-config/atomic';
+
+export default [...baseConfig, ...reactConfig, ...atomic({ levels: ['atoms', 'molecules', 'organisms', 'templates'] })];
+```
+
+The rules warn rather than fail, so they show where a low-level component
+is redefined across layers without blocking a build. A core library that
+gates on them sets them to `error` in a block after the flavor:
+
+```js
+{
+  rules: {
+    '@open-tomato/layer-imports': ['error', { levels }],
+    '@open-tomato/no-restyle-from-above': ['error', { levels }],
+    '@open-tomato/shared-variants': ['error', { levels }],
+  },
+},
+```
+
+The rules themselves are described in the
+[plugin's README](../eslint-plugin/README.md#the-atomic-layer-rules).
 
 The type-aware flavor is a function, because the project service needs the
 folder of the project's `tsconfig.json`:
