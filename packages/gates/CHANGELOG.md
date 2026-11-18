@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 — 2026-11-18, The gates README runs each gate through the installed package
+<!-- rafa:fragments gates-run-installed-bins -->
+
+- docs: every run line and the pre-commit hook use `bun run <bin>`, which runs only the installed gate and fetches nothing where the package is missing; the README says why a bare `bunx <bin>` is never the form.
+
 ## 0.1.1 — 2026-11-07, The privacy gate's README covers --root and what each mode reads
 <!-- rafa:fragments readme-pass-gates -->
 
