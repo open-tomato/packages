@@ -16,6 +16,22 @@ by bun, so they need bun 1.3 or newer.
 bun add -d @open-tomato/gates
 ```
 
+Run each gate through the installed package, with `bun run <bin>` or a
+`package.json` script. `bun run` only runs what the project has installed,
+so where the package is missing it stops with `Script not found` and
+fetches nothing. Never call a gate as a bare `bunx <bin>`: where the package
+is not installed, bunx looks the bin name up as a package of its own on
+the registry and runs whatever it finds there.
+
+```json
+{
+  "scripts": {
+    "gate:control-bytes": "ot-control-byte-gate",
+    "gate:privacy": "ot-privacy-gate"
+  }
+}
+```
+
 ## `ot-control-byte-gate`
 
 Refuses raw control bytes and invisible characters in tracked text files.
@@ -27,9 +43,9 @@ BiDi overrides and the zero-width characters, the same set as
 files ESLint never reads, such as YAML, shell scripts and lock files.
 
 ```bash
-bunx ot-control-byte-gate                      # every tracked file
-bunx ot-control-byte-gate --staged             # the index, for a pre-commit hook
-bunx ot-control-byte-gate --include-untracked  # also files not yet added
+bun run ot-control-byte-gate                      # every tracked file
+bun run ot-control-byte-gate --staged             # the index, for a pre-commit hook
+bun run ot-control-byte-gate --include-untracked  # also files not yet added
 ```
 
 ## `ot-privacy-gate`
@@ -47,10 +63,10 @@ Refuses personal and private data in what a public repository tracks:
   fictional 555-01xx range.
 
 ```bash
-bunx ot-privacy-gate              # tracked files and untracked ones git would track
-bunx ot-privacy-gate --staged     # the index, for a pre-commit hook
-bunx ot-privacy-gate --history    # every blob and commit identity, before a first push
-bunx ot-privacy-gate --root ../other-repo  # a repository other than the current one
+bun run ot-privacy-gate              # tracked files and untracked ones git would track
+bun run ot-privacy-gate --staged     # the index, for a pre-commit hook
+bun run ot-privacy-gate --history    # every blob and commit identity, before a first push
+bun run ot-privacy-gate --root ../other-repo  # a repository other than the current one
 ```
 
 Each mode reads what it judges from where a reviewer would see it:
@@ -96,12 +112,14 @@ a typo there would otherwise empty a list without a word.
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-bunx ot-control-byte-gate --staged
-bunx ot-privacy-gate --staged
+bun run ot-control-byte-gate --staged
+bun run ot-privacy-gate --staged
 ```
 
 Save it as `.githooks/pre-commit`, make it executable, and turn it on once
-per clone with `git config core.hooksPath .githooks`.
+per clone with `git config core.hooksPath .githooks`. In a clone that has
+not run `bun install` yet, the hook stops the commit with `Script not
+found` instead of fetching anything.
 
 ## Exports
 
